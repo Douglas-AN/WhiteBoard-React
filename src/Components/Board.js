@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from "react";
-import '../styles/board.css'
+import '../styles/board.css';
+
 const Board = () => {
     const canvasRef = useRef(null);
     const colors = useRef(null);
     // const socketRef = useRef();
-
     useEffect(() => {
 
         const canvas = canvasRef.current;
@@ -16,10 +16,17 @@ const Board = () => {
         let dataURL = "";
         let dataPoint = {}
 
-
         const onColorUpdate = (e) => {
             current.color = e.target.className.split(" ")[1];
         };
+
+        const getIcon = (file) => {
+            let img = new Image();
+            img.onload = () => {
+                context.drawImage(img, 0, 0);
+            }
+            img.src = file;
+        }
 
         const drawLine = (x0, y0, x1, y1, color, send) => {
             context.beginPath();
@@ -35,14 +42,24 @@ const Board = () => {
             const w = canvas.width;
             const h = canvas.height;
 
-            dataPoint = {
+            let pointObj = {
                 x0: x0 / w,
                 y0: y0 / h,
                 x1: x1 / w,
                 y1: y1 / h,
-                color
+            }
+
+            dataPoint = { ...dataPoint, points: [...dataPoint.points, pointObj] }
+            dataPoint = {
+                points: [],
+                icons: [
+                    {
+                        "icon": "./svg/align-center.svg",
+                    },
+                ],
+                color,
             };
-            console.log(dataPoint);
+            // console.log(dataPoint);
         };
 
         const onMouseDown = (e) => {
@@ -52,7 +69,7 @@ const Board = () => {
         };
 
         const onMouseMove = (e) => {
-           if (!drawing) return;
+            if (!drawing) return;
             drawLine(current.x, current.y, e.clientX || e.touches[0].clientX, e.clientY || e.touches[0].clientY, current.color, drawing);
             current.x = e.clientX || e.touches[0].clientX;
             current.y = e.clientY || e.touches[0].clientY;
@@ -117,12 +134,12 @@ const Board = () => {
     return (
         <div>
             <canvas ref={canvasRef} className="whiteboard" />
-            <div ref={colors} className="colors">
+            {/* <div ref={colors} className="colors">
                 <div className="color black" />
                 <div className="color green" />
                 <div className="color red" />
                 <div className="color blue" />
-            </div>
+            </div> */}
         </div>
     );
 };
