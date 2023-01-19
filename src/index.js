@@ -4,6 +4,20 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Board from './Components/Board';
 
+let obj;
+let array=[];
+  for (let i= 250; i< 280; i++) {
+    
+    obj = {
+      "id": i,
+      "src": "",
+      "cat": "travels and places"
+    }
+    array.push(obj)
+  }
+
+  console.log(JSON.stringify(array));
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
