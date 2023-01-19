@@ -28,6 +28,15 @@ const Board = () => {
             img.src = file;
         }
 
+        dataPoint = {
+            points: [],
+            icons: [
+                {
+                    "icon": "./svg/align-center.svg",
+                },
+            ],
+        };
+
         const drawLine = (x0, y0, x1, y1, color, send) => {
             context.beginPath();
             context.moveTo(x0, y0);
@@ -48,18 +57,13 @@ const Board = () => {
                 x1: x1 / w,
                 y1: y1 / h,
             }
+            
+            dataPoint.color = color
 
-            dataPoint = { ...dataPoint, points: [...dataPoint.points, pointObj] }
-            dataPoint = {
-                points: [],
-                icons: [
-                    {
-                        "icon": "./svg/align-center.svg",
-                    },
-                ],
-                color,
-            };
-            // console.log(dataPoint);
+            let pointArray = dataPoint.points;
+            pointArray.push(pointObj);
+
+            dataPoint.points = pointArray;
         };
 
         const onMouseDown = (e) => {
